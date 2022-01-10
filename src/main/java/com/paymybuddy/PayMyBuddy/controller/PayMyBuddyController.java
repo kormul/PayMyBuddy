@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -53,6 +52,7 @@ public class PayMyBuddyController {
 		
 		User user = userService.getUserAuthen();
 		model.addAttribute("user", user);	
+		model.addAttribute("transactionHistory", transactionService.getPageTransaction(1));
 		return "account";
 	}
 	
@@ -126,15 +126,30 @@ public class PayMyBuddyController {
     
     @PostMapping("/transfer")
     public RedirectView addTransfer(@RequestParam(value = "money", required = true) double money, @RequestParam(value = "receiver", required = true) int receiver, @RequestParam(value = "description", required = true) String description) {
+    	
+    	if(!userService.nonDebtor(money)) {
+            return new RedirectView("transfer?debtor");
+    	}
+    	
     	transactionService.addTransaction(money, description, receiver);
     	
-    	return new RedirectView("transfer");
+    	return new RedirectView("transfer?success");
     }
     
     @GetMapping("/log_off")
     public RedirectView logOff(RedirectAttributes attributes) {
 		SecurityContextHolder.clearContext();
         return new RedirectView("home");
+    }
+    
+    @GetMapping("/provision")
+    public String provision() {
+    	return "provision";
+    }
+    
+    @GetMapping("/bank")
+    public String bankTransfer() {
+    	return "bank";
     }
     
     @PostMapping("/add_money")
@@ -145,7 +160,11 @@ public class PayMyBuddyController {
     
     @PostMapping("/take_money")
     public RedirectView takeMoney(@RequestParam(value = "takemoney", required = true) double money) {
+    	if(!userService.nonDebtor(money)) {
+            return new RedirectView("account?debtor");
+    	}
     	userService.takeMoney(money);
+    	
         return new RedirectView("account");
     }
     

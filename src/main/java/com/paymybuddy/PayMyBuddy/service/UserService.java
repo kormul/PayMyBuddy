@@ -32,4 +32,10 @@ public class UserService {
 		usersRepository.save(user);
 		return true;
 	}
+	
+	public boolean nonDebtor(double Currency) {
+		User user = this.getUserAuthen();
+		return user.getCurrency()-Currency >= 0;
+		
+	}
 }

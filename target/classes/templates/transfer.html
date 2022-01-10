@@ -11,7 +11,7 @@
 	<header>
 		<div class="container">
 			<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-				<a th:href="home.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+				<a th:href="home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
 					<span class="fs-4">
                         <button type=button class="btn logo">Pay My Buddy</button>
                     </span>
@@ -38,10 +38,10 @@
             <div class="row">
                 <select class="custom-select col-3" name="receiver"  id="dropOperator"><option th:each="AllConnnection : ${AllConnnection}" th:value="${AllConnnection.idUser}" th:text="${AllConnnection.pseudo}"></option></select>
                 <div class="col-2">
-                    <input name="money" type="number" placeholder="0€" class="form-control" aria-label="Amount">
+                    <input name="money" required="true" type="number" placeholder="0€" class="form-control" aria-label="Amount">
                 </div>
                 <div class="col-4">
-                    <input type="text" name="description" placeholder="description" class="form-control">
+                    <input type="text" required="true" name="description" placeholder="description" class="form-control">
                 </div>
                 <div class="col-1">
                     <button type="submit" class="btn btn-primary">Pay</button>
@@ -50,7 +50,17 @@
         </form>
 
     </div>
-
+    <br><br>
+    <div th:if="${param.debtor}">
+        <div class="alert alert-danger center" role="alert">
+            you do not have enough money
+        </div>
+    </div>
+    <div th:if="${param.success}">
+        <div class="alert alert-success center" role="alert">
+            Success !
+        </div>
+    </div>
  <div class="py-3">
     <div class="container">
         <div class="row">

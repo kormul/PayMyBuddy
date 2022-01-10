@@ -15,20 +15,20 @@
 		<form method="POST" action="/register" th:object="${user}" class="form-signin">
 			<h2>Pay My Buddy</h2>
 			<div class="form-floating">
-				<input name="user_mail" type="text" class="form-control" id="floatingInput" placeholder="Email" autofocus="true" th:field="*{mail}">
+				<input name="user_mail" required="true" type="text" class="form-control" id="floatingInput" placeholder="Email" autofocus="true" th:field="*{mail}">
 				<label for="floatingInput">Email address</label>
 			</div>
 			<div class="form-floating">
-				<input name="user_pseudo" type="text" class="form-control" id="floatingInput" placeholder="Pseudo" autofocus="true" th:field="*{pseudo}">
+				<input name="user_pseudo" required="true" type="text" class="form-control" id="floatingInput" placeholder="Pseudo" autofocus="true" th:field="*{pseudo}">
 				<label for="floatingInput">Pseudo</label>
 			</div>
 			<div class="form-floating">
-				<input name="user-password" type="password" class="form-control" id="floatingPassword" placeholder="Password" th:field="*{password}">
+				<input name="user-password" required="true" type="password" class="form-control" id="floatingPassword" placeholder="Password" th:field="*{password}">
 				<label for="floatingPassword">Password</label>
 			</div>
 
 			<div class="form-floating">
-				<input name="confirm-password" type="password" class="form-control" id="floatingPassword" placeholder="Password" th:field="*{matchingPassword}">
+				<input name="confirm-password" required="true" type="password" class="form-control" id="floatingPassword" placeholder="Password" th:field="*{matchingPassword}">
 				<label for="floatingPassword">Confirm Password</label>
 			</div>
 			<button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
