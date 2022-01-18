@@ -31,6 +31,9 @@ public class RegisterService {
 		if (pseudoExist(userDto.getPseudo())) {
 			throw new Exception("There is an account with that pseudo: " + userDto.getPseudo()); 
 		}
+		if (!userDto.getPassword().equals(userDto.getMatchingPassword())) {
+			throw new Exception("Passwords do not match"); 
+		}
 		
 		User user = new User();
 		user.setPseudo(userDto.getPseudo());

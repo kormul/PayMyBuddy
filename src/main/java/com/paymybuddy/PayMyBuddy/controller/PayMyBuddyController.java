@@ -83,7 +83,7 @@ public class PayMyBuddyController {
 		try {
 			registerService.registerUser(userDto);
 		} catch (Exception exception) {
-			return new RedirectView("register");
+			return new RedirectView("register?error?text="+exception.getMessage());
 		}
 		return new RedirectView("login");
 	}
