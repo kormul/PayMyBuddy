@@ -31,7 +31,7 @@ public class ConnectionService {
 		User connectionUser = usersRepository.getByPseudo(userName);
 		User user = usersRepository.getByPseudo(authentication.getName());
 		if(connectionUser == null)
-			throw new UsernameNotFoundException(userName);
+			return false;
 		if(connectionUser.getPseudo().equalsIgnoreCase(user.getPseudo()))
 			return false;
 		if(connectionsRepository.getByUserIdAndConnectionId(user.getId(), connectionUser.getId()) != null) {
