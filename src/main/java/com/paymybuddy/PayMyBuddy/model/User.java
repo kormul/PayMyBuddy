@@ -41,5 +41,5 @@ public class User {
     
     @OneToMany()
     @JoinColumn(name = "transmitter", referencedColumnName = "id")
-    private List<Transaction> transaction;
+    private List<Transaction> transactions;
 }

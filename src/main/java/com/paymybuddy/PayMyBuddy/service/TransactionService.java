@@ -47,7 +47,7 @@ public class TransactionService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersRepository.getByPseudo(authentication.getName());
 		List<TransactionHistoryDTO> historyResult = new ArrayList<>();
-		List<Transaction> allTransaction = user.getTransaction();//transactionsRepository.findByTransmitter(user.getId());
+		List<Transaction> allTransaction = user.getTransactions();//transactionsRepository.findByTransmitter(user.getId());
 		Collections.reverse(allTransaction);
 		int id = (page-1)*3;
 		for(int i = 0; i<3;i++) {
@@ -65,7 +65,7 @@ public class TransactionService {
 	public int getAllPage() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersRepository.getByPseudo(authentication.getName());
-		List<Transaction> allTransaction = user.getTransaction();
+		List<Transaction> allTransaction = user.getTransactions();
 		int number = allTransaction.size()/3;
 		if(allTransaction.size() %3>0) number++;
 		return number;
