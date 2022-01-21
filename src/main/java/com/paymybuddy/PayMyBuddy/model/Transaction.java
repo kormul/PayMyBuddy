@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -25,11 +27,13 @@ public class Transaction {
     @Column(name="description")
 	private String description;
     
-    @Column(name="transmitter")
-	private int transmitter;
+    @ManyToOne()
+    @JoinColumn(name = "transmitter", referencedColumnName = "id")
+	private User transmitter;
     
-    @Column(name="receiver")
-	private int receiver;
+    @ManyToOne()
+    @JoinColumn(name = "receiver", referencedColumnName = "id")
+	private User receiver;
     
     @Column(name="fee")
 	private double fee;

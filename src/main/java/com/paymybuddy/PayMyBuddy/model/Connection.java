@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -19,10 +21,12 @@ public class Connection {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "userid")
-	private int userId;
+    @ManyToOne()
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+	private User userId;
 	
-	@Column(name = "connectionid")
-	private int connectionId;
+    @ManyToOne()
+    @JoinColumn(name = "connectionId", referencedColumnName = "id")
+	private User connectionId;
 
 }

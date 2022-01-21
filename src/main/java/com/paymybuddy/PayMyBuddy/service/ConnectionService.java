@@ -1,13 +1,11 @@
 package com.paymybuddy.PayMyBuddy.service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.PayMyBuddy.dto.ConnectionDTO;
@@ -34,12 +32,14 @@ public class ConnectionService {
 			return false;
 		if(connectionUser.getPseudo().equalsIgnoreCase(user.getPseudo()))
 			return false;
-		if(connectionsRepository.getByUserIdAndConnectionId(user.getId(), connectionUser.getId()) != null) {
-			return false;
+		for(Connection connection : user.getConnections()) {
+			if(connection.getConnectionId().getId() == connectionUser.getId()) {
+				return false;
+			}
 		}
 		Connection connection = new Connection();
-		connection.setUserId(user.getId());
-		connection.setConnectionId(connectionUser.getId());
+		connection.setUserId(user);
+		connection.setConnectionId(connectionUser);
 		connectionsRepository.save(connection);
 		return true;
 	}
@@ -47,10 +47,10 @@ public class ConnectionService {
 	public List<ConnectionDTO> getConnection() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = usersRepository.getByPseudo(authentication.getName());
-		List<Connection> connections =  connectionsRepository.findByUserId(user.getId());
+		List<Connection> connections = user.getConnections();
 		List<ConnectionDTO> connectionDTOs = new ArrayList<>();
 		for(Connection connection : connections){
-			connectionDTOs.add(new ConnectionDTO(connection.getId(), usersRepository.getById(connection.getConnectionId()).getPseudo(), usersRepository.getById(connection.getConnectionId()).getId()));
+			connectionDTOs.add(new ConnectionDTO(connection.getId(), connection.getConnectionId().getPseudo(), connection.getConnectionId().getId()));
 		}
 		return connectionDTOs;
 	}
